@@ -6,7 +6,6 @@ app = Flask(__name__, static_url_path='')
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-
 # real db next
 
 switches = [

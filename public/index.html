@@ -1,28 +1,45 @@
 <!doctype html>
-<html ng-app>
+<html ng-app="IoT">
 	<head>
 		<title>Hello AngularJS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.9/angular.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     	<script>
-				function Switches($scope, $http) {
-				  $http.get('http://localhost:5000/api/switches').
-				  success(function(data) {
-				    console.log(data.switches[0]);
-				    $scope.switches = data;
-				  });
-          $scope.updateSwitch = function (x) {
-            $http.put("http://localhost:5000/api/switches/" + this.switch.id, { 'state': x.toElement.checked }).success(function(result) {
-              console.log(result);
-              $scope.resultPut = result;
-            }).error(function() {
-              console.log("error");
-            });
+			var app = angular.module('IoT', []);
 
-          }
-				}
+			app.controller('switchesController', function ($scope, switchesFactory) {
+				switchesFactory.getSwitches().then(function(data) {
+					$scope.switches = data;
+				});
+
+				$scope.clickSwitch = function (x) {
+					var id = this.switch.id;
+					var state = x.toElement.checked;
+					switchesFactory.updateSwitch(id, state).then(function(data) {
+						console.log(data);
+					});
+    		};
+			});
+
+			app.factory('switchesFactory', function($http) {
+				var baseURL = 'http://localhost:5000/api/switches'
+
+			    return {
+							getSwitches: function() {
+								return $http.get(baseURL).then(function(result) {
+				 					return result.data;
+		 						});
+			        },
+							updateSwitch: function(id, state) {
+								return  $http.put(baseURL + '/' + id, { 'state': state })
+								.then(function(response) {
+				 					return response;
+		 						});
+			        }
+			    };
+			});
 			</script>
 
       <style>
@@ -38,7 +55,6 @@
           padding: 10px 15px;
         }
 
-        input.cmn-toggle-round-flat+label{padding:2px;width:120px;height:60px;background-color:#ddd;border-radius:60px;transition:background .4s}input.cmn-toggle-round-flat+label:after,input.cmn-toggle-round-flat+label:before{display:block;position:absolute;content:""}input.cmn-toggle-round-flat+label:before{top:2px;left:2px;bottom:2px;right:2px;background-color:#fff;border-radius:60px;transition:background .4s}input.cmn-toggle-round-flat+label:after{top:4px;left:4px;bottom:4px;width:52px;background-color:#ddd;border-radius:52px;transition:margin .4s,background .4s}input.cmn-toggle-round-flat:checked+label{background-color:#8ce196}input.cmn-toggle-round-flat:checked+label:after{margin-left:60px;background-color:#8ce196}
       </style>
 	</head>
 
@@ -49,11 +65,12 @@
       </div>
     </nav>
 
-    <div class="container-fluid" ng-controller="Switches">
+		<div class="container-fluid" ng-controller="switchesController">
+
   		<ul class="list-group">
         <li class="list-group-item" ng-repeat="switch in switches.switches">
           <label for="switch-{{ switch.id }}"> {{ switch.name }}
-          <input id="switch-{{ switch.id }}" class="pull-right cmn-toggle-round-flat" type="checkbox" name="" ng-click="updateSwitch($event)" ng-checked="switch.state">
+          <input id="switch-{{ switch.id }}" class="pull-right" type="checkbox" name="" ng-click="clickSwitch($event)" ng-checked="switch.state">
           </label>
         </li>
   		</ul>
