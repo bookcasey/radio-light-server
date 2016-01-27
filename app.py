@@ -1,6 +1,11 @@
 from flask import Flask, abort, make_response, jsonify, request
+from flask.ext.cors import CORS, cross_origin
+
 
 app = Flask(__name__, static_url_path='')
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 # real db next
 
@@ -34,15 +39,13 @@ switches = [
     }
 ]
 
-@app.route('/', methods=['GET'])
-def redirect_to_index():
-    return make_response(open('public/index.html').read())
-
 @app.route('/api/switches', methods=['GET'])
+@cross_origin()
 def get_switches():
     return jsonify({'switches': switches})
 
 @app.route('/api/switches/<int:switch_id>', methods=['GET'])
+@cross_origin()
 def get_switch(switch_id):
     switch = [switch for switch in switches if switch['id'] == switch_id]
     if len(switch) == 0:
@@ -50,6 +53,7 @@ def get_switch(switch_id):
     return jsonify({'switches': switch[0]})
 
 @app.route('/api/switches/<int:switch_id>', methods=['PUT'])
+@cross_origin()
 def update_switch(switch_id):
     #return "ECHO: POST\n"
     switch = [switch for switch in switches if switch['id'] == switch_id]
@@ -64,6 +68,7 @@ def update_switch(switch_id):
     return jsonify({'switches': switch[0]})
 
 @app.errorhandler(404)
+@cross_origin()
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
@@ -71,4 +76,4 @@ def not_found(error):
 # less important: adding dynamically
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0')

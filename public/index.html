@@ -2,6 +2,8 @@
 <html ng-app>
 	<head>
 		<title>Hello AngularJS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     	<script>
@@ -22,23 +24,40 @@
           }
 				}
 			</script>
+
+      <style>
+        .navbar-brand {
+          float: none;
+        }
+        .list-group-item {
+          padding: 0;
+        }
+        label {
+          width: 100%;
+          margin: 0;
+          padding: 10px 15px;
+        }
+
+        input.cmn-toggle-round-flat+label{padding:2px;width:120px;height:60px;background-color:#ddd;border-radius:60px;transition:background .4s}input.cmn-toggle-round-flat+label:after,input.cmn-toggle-round-flat+label:before{display:block;position:absolute;content:""}input.cmn-toggle-round-flat+label:before{top:2px;left:2px;bottom:2px;right:2px;background-color:#fff;border-radius:60px;transition:background .4s}input.cmn-toggle-round-flat+label:after{top:4px;left:4px;bottom:4px;width:52px;background-color:#ddd;border-radius:52px;transition:margin .4s,background .4s}input.cmn-toggle-round-flat:checked+label{background-color:#8ce196}input.cmn-toggle-round-flat:checked+label:after{margin-left:60px;background-color:#8ce196}
+      </style>
 	</head>
 
 	<body>
     <nav class="navbar navbar-default">
       <div class="container">
-        <a class="navbar-brand text-center center-block" style="float: none;" href="#">Lights</a>
+        <a class="navbar-brand text-center center-block" href="#">Lights</a>
       </div>
     </nav>
-</nav>
-    <div class="container-fluid">
-  		<ul class="list-group" ng-controller="Switches">
+
+    <div class="container-fluid" ng-controller="Switches">
+  		<ul class="list-group">
         <li class="list-group-item" ng-repeat="switch in switches.switches">
-          <label for="switch-{{ switch.id }}" style="width: 100%;"> {{ switch.name }}
-          <input id="switch-{{ switch.id }}" class="pull-right" type="checkbox" name="" ng-click="updateSwitch($event)" ng-checked="switch.state">
+          <label for="switch-{{ switch.id }}"> {{ switch.name }}
+          <input id="switch-{{ switch.id }}" class="pull-right cmn-toggle-round-flat" type="checkbox" name="" ng-click="updateSwitch($event)" ng-checked="switch.state">
           </label>
         </li>
   		</ul>
+
     </div>
 	</body>
 </html>
