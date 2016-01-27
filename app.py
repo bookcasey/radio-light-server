@@ -39,6 +39,11 @@ switches = [
     }
 ]
 
+@app.route('/', methods=['GET'])
+@cross_origin()
+def redirect_to_index():
+    return make_response(open('public/index.html').read())
+
 @app.route('/api/switches', methods=['GET'])
 @cross_origin()
 def get_switches():
