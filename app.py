@@ -1,12 +1,15 @@
 from flask import Flask, abort, make_response, jsonify, request
 from flask.ext.cors import CORS, cross_origin
 
-
 app = Flask(__name__, static_url_path='')
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+# Python for ease of RasPi
 # real db next
+
+# less important: adding dynamically
+# less important: websockets
 
 switches = [
     {
@@ -75,9 +78,6 @@ def update_switch(switch_id):
 @cross_origin()
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
-
-
-# less important: adding dynamically
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
