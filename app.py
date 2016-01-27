@@ -3,10 +3,6 @@ from flask import abort
 from flask import make_response
 from flask import jsonify
 
-
-
-import simplejson as json
-
 app = Flask(__name__)
 
 switches = [
