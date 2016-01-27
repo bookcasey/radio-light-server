@@ -1,0 +1,34 @@
+<!doctype html>
+<html ng-app>
+	<head>
+		<title>Hello AngularJS</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"></script>
+    	<script>
+				function Switches($scope, $http) {
+				  $http.get('http://localhost:5000/api/switches').
+				  success(function(data) {
+				    console.log(data.switches[0]);
+				    $scope.switches = data;
+				  });
+          $scope.updateSwitch = function (x) {
+            $http.put("http://localhost:5000/api/switches/" + this.switch.id, { 'state': x.toElement.checked }).success(function(result) {
+              console.log(result);
+              $scope.resultPut = result;
+            }).error(function() {
+              console.log("error");
+            });
+
+          }
+				}
+			</script>
+	</head>
+
+	<body>
+		<ul ng-controller="Switches">
+      <li ng-repeat="switch in switches.switches">
+        {{ switch.id }}
+        <input type="checkbox" name="" ng-click="updateSwitch($event)" ng-checked="switch.state">
+      </li>
+		</ul>
+	</body>
+</html>
