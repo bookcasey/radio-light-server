@@ -7,6 +7,7 @@ app = Flask(__name__, static_url_path='')
 switches = [
     {
         'id': 1,
+        'name': 'Kitchen',
         'codes' : {
             'on': 12345,
             'off': 12346
@@ -15,6 +16,7 @@ switches = [
     },
     {
         'id': 2,
+        'name': 'Bedroom',
         'codes' : {
             'on': 23456,
             'off': 23457
@@ -23,6 +25,7 @@ switches = [
     },
     {
         'id': 3,
+        'name': 'Outside',
         'codes' : {
             'on': 43567,
             'off': 43868
