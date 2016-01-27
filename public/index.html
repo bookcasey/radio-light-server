@@ -12,6 +12,8 @@
 			app.controller('switchesController', function ($scope, switchesFactory) {
 				switchesFactory.getSwitches().then(function(data) {
 					$scope.switches = data;
+				}).catch(function(e) {
+					console.log(e);
 				});
 
 				$scope.clickSwitch = function (x) {
