@@ -1,9 +1,8 @@
-from flask import Flask
-from flask import abort
-from flask import make_response
-from flask import jsonify
+from flask import Flask, abort, make_response, jsonify, request
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
+
+# real db next
 
 switches = [
     {
@@ -21,8 +20,20 @@ switches = [
             'off': 23457
         },
         'state': False
+    },
+    {
+        'id': 3,
+        'codes' : {
+            'on': 43567,
+            'off': 43868
+        },
+        'state': True
     }
 ]
+
+@app.route('/', methods=['GET'])
+def redirect_to_index():
+    return make_response(open('public/index.html').read())
 
 @app.route('/api/switches', methods=['GET'])
 def get_switches():
@@ -36,20 +47,23 @@ def get_switch(switch_id):
     return jsonify({'switches': switch[0]})
 
 @app.route('/api/switches/<int:switch_id>', methods=['PUT'])
-def update_task(task_id):
+def update_switch(switch_id):
+    #return "ECHO: POST\n"
     switch = [switch for switch in switches if switch['id'] == switch_id]
-    if len(task) == 0:
+    if len(switch) == 0:
         abort(404)
     if not request.json:
         abort(400)
     if 'state' in request.json and type(request.json['state']) is not bool:
         abort(400)
-    switch[0]['state'] = request.json.get('state', switch[0]['done'])
+    switch[0]['state'] = request.json.get('state', switch[0]['state'])
+    # trigger light here
     return jsonify({'switches': switch[0]})
 
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
+
 
 # less important: adding dynamically
 
