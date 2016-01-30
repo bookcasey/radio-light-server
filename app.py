@@ -94,7 +94,10 @@ def update_switch(switch_id):
     if 'state' in request.json and type(request.json['state']) is not bool:
         abort(400)
     switch[0]['state'] = request.json.get('state', switch[0]['state'])
-    sender.sendDecimal(69, 24)
+    if switch[0]['codes']['on']:
+        sender.sendDecimal(69, 24)
+    if switch[0]['codes']['on'] == False:
+        sender.sendDecimal(69, 24)
     return jsonify({'switches': switch[0]})
 
 @app.errorhandler(404)
