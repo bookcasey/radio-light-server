@@ -19,30 +19,48 @@ sender.enableTransmit(0) # use WiringPi pin 0
 switches = [
     {
         'id': 1,
-        'name': 'Kitchen',
+        'name': 'Outlet One',
         'codes' : {
-            'on': 12345,
-            'off': 12346
+            'on': 4281795,
+            'off': 4281660
         },
         'state': False
     },
     {
         'id': 2,
-        'name': 'Bedroom',
+        'name': 'Outlet Two',
         'codes' : {
-            'on': 23456,
-            'off': 23457
+            'on': 4281795,
+            'off': 4281804
         },
         'state': False
     },
     {
         'id': 3,
-        'name': 'Outside',
+        'name': 'Outlet Three',
         'codes' : {
-            'on': 43567,
-            'off': 43868
+            'on': 4282115,
+            'off': 4282124
         },
-        'state': True
+        'state': False
+    },
+    {
+        'id': 4,
+        'name': 'Outlet Four',
+        'codes' : {
+            'on': 4283651,
+            'off': 4289804
+        },
+        'state': False
+    },
+    {
+        'id': 5,
+        'name': 'Outlet Five',
+        'codes' : {
+            'on': 4289795,
+            'off': 4289804
+        },
+        'state': False
     }
 ]
 
