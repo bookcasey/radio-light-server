@@ -98,9 +98,9 @@ def update_switch(switch_id):
     switch[0]['state'] = request.json.get('state', switch[0]['state'])
     print switch[0]['state'] # true/false
     print switch[0]['codes']['on']
-    if switch[0]['state'] :
+    if switch[0]['state']:
         sender.sendDecimal(switch[0]['codes']['on'], 24)
-    if switch[0]['state'] == False
+    if switch[0]['state'] == False:
         sender.sendDecimal(switch[0]['codes']['off'], 24)
 
     return jsonify({'switches': switch[0]})
