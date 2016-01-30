@@ -9,6 +9,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 sender = RCSwitchSender()
 sender.enableTransmit(0) # use WiringPi pin 0
+sender.setPulseLength(181)
 
 # Python for ease of RasPi
 # real db next
@@ -21,7 +22,7 @@ switches = [
         'id': 1,
         'name': 'Outlet One',
         'codes' : {
-            'on': 4281795,
+            'on': 4281651,
             'off': 4281660
         },
         'state': False
@@ -49,7 +50,7 @@ switches = [
         'name': 'Outlet Four',
         'codes' : {
             'on': 4283651,
-            'off': 4289804
+            'off': 4283660
         },
         'state': False
     },
@@ -86,6 +87,7 @@ def get_switch(switch_id):
 @cross_origin()
 def update_switch(switch_id):
     #return "ECHO: POST\n"
+    print switch_id
     switch = [switch for switch in switches if switch['id'] == switch_id]
     if len(switch) == 0:
         abort(404)
@@ -94,10 +96,13 @@ def update_switch(switch_id):
     if 'state' in request.json and type(request.json['state']) is not bool:
         abort(400)
     switch[0]['state'] = request.json.get('state', switch[0]['state'])
-    if switch[0]['codes']['on']:
-        sender.sendDecimal(69, 24)
-    if switch[0]['codes']['on'] == False:
-        sender.sendDecimal(69, 24)
+    print switch[0]['state'] # true/false
+    print switch[0]['codes']['on']
+    if switch[0]['state'] :
+        sender.sendDecimal(switch[0]['codes']['on'], 24)
+    if switch[0]['state'] == false
+        sender.sendDecimal(switch[0]['codes']['off'], 24)
+
     return jsonify({'switches': switch[0]})
 
 @app.errorhandler(404)
