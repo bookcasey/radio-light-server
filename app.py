@@ -1,9 +1,14 @@
 from flask import Flask, abort, make_response, jsonify, request
 from flask.ext.cors import CORS, cross_origin
 
+from pi_switch import RCSwitchSender
+
 app = Flask(__name__, static_url_path='')
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
+sender = RCSwitchSender()
+sender.enableTransmit(0) # use WiringPi pin 0
 
 # Python for ease of RasPi
 # real db next
@@ -71,7 +76,7 @@ def update_switch(switch_id):
     if 'state' in request.json and type(request.json['state']) is not bool:
         abort(400)
     switch[0]['state'] = request.json.get('state', switch[0]['state'])
-    # trigger light here
+    sender.sendDecimal(69, 24)
     return jsonify({'switches': switch[0]})
 
 @app.errorhandler(404)
