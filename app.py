@@ -100,7 +100,7 @@ def update_switch(switch_id):
     print switch[0]['codes']['on']
     if switch[0]['state'] :
         sender.sendDecimal(switch[0]['codes']['on'], 24)
-    if switch[0]['state'] == false
+    if switch[0]['state'] == False
         sender.sendDecimal(switch[0]['codes']['off'], 24)
 
     return jsonify({'switches': switch[0]})
