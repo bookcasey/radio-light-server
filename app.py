@@ -20,7 +20,7 @@ sender.setPulseLength(181)
 switches = [
     {
         'id': 1,
-        'name': 'Outlet One',
+        'name': 'Bedside Lamp',
         'codes' : {
             'on': 4281651,
             'off': 4281660
@@ -29,7 +29,7 @@ switches = [
     },
     {
         'id': 2,
-        'name': 'Outlet Two',
+        'name': 'Humidifier',
         'codes' : {
             'on': 4281795,
             'off': 4281804
@@ -38,7 +38,7 @@ switches = [
     },
     {
         'id': 3,
-        'name': 'Outlet Three',
+        'name': 'Electric Blanket',
         'codes' : {
             'on': 4282115,
             'off': 4282124
@@ -47,7 +47,7 @@ switches = [
     },
     {
         'id': 4,
-        'name': 'Outlet Four',
+        'name': 'Air Filter',
         'codes' : {
             'on': 4283651,
             'off': 4283660
